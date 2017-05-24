@@ -20,7 +20,12 @@ public class UIDropDown: UIControl {
     fileprivate var arrow: Arrow!
     fileprivate var table: UITableView!
     
-    public fileprivate(set) var selectedIndex: Int?
+//    public fileprivate(set) var selectedIndex: Int?
+    public var selectedIndex: Int? {
+      didSet {
+        placeholder = selectedIndex != nil ? options[selectedIndex!] : placeholder
+      }
+    }
     public var options = [String]()
     public var hideOptionsWhenSelect = false
     public var placeholder: String! {
@@ -141,6 +146,7 @@ public class UIDropDown: UIControl {
                                       width: (self.frame.width-self.frame.height),
                                       height: self.frame.height))
         title.textAlignment = .center
+        title.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(title)
         
         let arrowContainer = UIView(frame: CGRect(x: title.frame.maxX,
@@ -148,6 +154,7 @@ public class UIDropDown: UIControl {
                                                   width: title.frame.height,
                                                   height: title.frame.height))
         arrowContainer.isUserInteractionEnabled = false
+        arrowContainer.autoresizingMask = [.flexibleLeftMargin]
         self.addSubview(arrowContainer)
         
         arrow = Arrow(origin: CGPoint(x: arrowPadding,
